@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bill Payment</title>
+</head>
+<body>
+  <h1>Bill Paying</h1>
+
+  <!-- Add/Rename Contact Section -->
+  <h2>Add/Rename Contact</h2>
+<form action="/addOrUpdateContact" method="POST">
+  <input type="hidden" name="accountnum" value="<%= account.accountnum %>">
+  <input type="number" name="contactAccount" placeholder="Contact Account Number" required>
+  <input type="text" name="contactNickname" placeholder="Contact Nickname" required>
+  <button type="submit">Add/Rename Contact</button>
+</form>
+
+
+  <!-- Recipient List Section -->
+  <h2>Recipient List</h2>
+  <input type="text" placeholder="Search" onkeyup="filterContacts(this.value)">
+<% if (contacts && contacts.length > 0) { %>
+  <ul id="recipient-list">
+    <% contacts.forEach(contact => { %>
+      <li>
+        <span>Name: <%= contact.contact_nickname %></span>
+        <span>Account name: <%= contact.contact_account %></span>
+        <a href="/account_transfer?from=<%= account.accountnum %>&to=<%= contact.contact_account %>">Make a payment</a>
+      </li>
+    <% }); %>
+  </ul>
+<% } else { %>
+  <p>No contacts found.</p>
+<% } %>
+
+
+  <script>
+    function filterContacts(searchText) {
+      const items = document.querySelectorAll('#recipient-list li');
+      items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(searchText.toLowerCase())) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

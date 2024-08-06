@@ -1,0 +1,130 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+
+<%- include("header") -%>
+
+  <div class="box" id="heading">
+    <h1> NAU BANK </h1>
+  </div>
+
+  <form action = "/logout" method = "POST">
+    <button type = "logout">Log Out</button>
+  </form>
+
+  <div class="hseparator1">
+    <span></span>
+    </div>
+
+  <div class="numberszone">
+    <%  account %>
+    <div class ="numbersbox">
+      <div class = "title">
+        <text> Account Number:</text>
+      </div>
+      <div class="number">
+        <text type=number><%=account.accountnum %> </text>
+      </div>
+    </div>
+    <div class ="numbersbox">
+      <div class = "title">
+        <text> Routing Number:</text>
+      </div>
+      <div class="number">
+        <text type=number><%=account.routingnum %> </text>
+      </div>
+    </div>
+    <div class ="numbersbox">
+      <div class = "title">
+        <text> Direct Deposit Number:</text>
+      </div>
+      <div class="number">
+        <text type=number><%=account.directdepositnum %> </text>
+      </div>
+    </div>
+    <div class ="numbersbox">
+      <div class = "title">
+        <text> Wire Transfer Number:</text>
+      </div>
+      <div class="number">
+        <text type=number><%=account.wiretransfernum %> </text>
+      </div>
+    </div>
+  </div>
+
+  <div class="vseparator">
+    <span></span>
+    </div>
+
+  <div class="balancebox">
+    <div class= "balancetitle">
+      <text> Account Balance: </text>
+      </div>
+    <div class= "balance">
+      <text> <%=account.balance%></text>
+      </div>
+  </div>
+
+  <div class="hseparator2">
+      <span></span>
+  </div>
+
+  <form action="/account_transfer" method="GET">
+    <input type="hidden" name="accountnum" value="<%= account.accountnum %>">
+    <button type="submit">Account Transfer</button>
+  </form>
+
+    <form action="/billpayment" method="GET">
+    <input type="hidden" name="accountnum" value="<%= account.accountnum %>">
+    <button type="submit">Bill Payment</button>
+  </form>
+
+    <form action="/account_history" method="GET">
+    <input type="hidden" name="accountnum" value="<%= account.accountnum %>">
+    <button type="submit">Account History</button>
+  </form>
+
+  <div id="transactionhistory" class="prevtransactionentry">
+    <h2 class="prevtransactionentry" type="title">Transaction History</h2>
+    <input  type="button" value="Download Transaction History"
+                    onclick="convertHTMLtoPDF()">
+    <% if (transactions.length > 0) { %>
+      <ul>
+        <% transactions.forEach(transaction => { %>
+          <li class="prevtransactionentry" type="entry">
+            <strong>Date:</strong> <%= transaction.date.toDateString() %> <br>
+            <strong>From:</strong> <%= transaction.sending_account_num %> <br>
+            <strong>To:</strong> <%= transaction.receiving_account_num %> <br>
+            <strong>Amount:</strong> $<%= transaction.amount %> <br>
+            <strong>Status:</strong> <%= transaction.status %> <br>
+            <strong>Note:</strong> <%= transaction.note %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>No transactions found.</p> // If there are no transactions, display that there are none.
+    <% } %>
+  </div>
+
+  <script type="text/javascript">
+          function convertHTMLtoPDF() {
+              const { jsPDF } = window.jspdf;
+
+              let doc = new jsPDF('l', 'mm', [1500, 1400]);
+              let pdfjs = document.querySelector('#transactionhistory');
+
+              doc.html(pdfjs, {
+                  callback: function(doc) {
+                      doc.save("transactionhistory.pdf");
+                  },
+                  x: 12,
+                  y: 12
+              });
+          }
+      </script>
+
+
+
+<%- include("footer") -%>

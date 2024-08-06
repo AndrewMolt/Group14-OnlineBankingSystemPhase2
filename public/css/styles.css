@@ -1,0 +1,330 @@
+html {
+  background-color: #ffffff;
+  min-height: 1000px;
+  font-family: 'helvetica neue';
+}
+
+h1 {
+  color: #000000;
+  padding: 10px;
+}
+
+.box {
+  max-width: 400px;
+  margin: 50px auto;
+  background: #ededed;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.logincredsbox {
+  width: 600px;
+  height: 300px;
+  background-color: darkgray;
+  border: solid 5px;
+  border-color: black;
+  border-radius: 20px;
+  margin: auto;
+  margin-top: 100px;
+  text-align: center;
+}
+
+.loginemailbox {
+  margin: auto;
+  margin-top: 70px;
+  width: 400px;
+  height: 60px;
+  border: solid 2px;
+  border-radius: 5px;
+  background-color: lightgray;
+  text-align: center;
+}
+
+.loginemailbox:focus-within {
+  border: solid 4px;
+}
+
+.loginpasswordbox {
+  margin: auto;
+  margin-top: 5px;
+  width: 400px;
+  height: 60px;
+  border: solid 2px;
+  border-radius: 5px;
+  background-color: lightgray;
+  text-align: center;
+}
+
+.loginpasswordbox:focus-within {
+  border: solid 4px;
+}
+
+.transactiontitlebox {
+  background-color: white;
+  margin: -10px;
+  margin-top: 0px;
+  width: 1900px;
+  height: 50px;
+  text-color: black;
+  font-size: 50px;
+}
+
+.balancebox {
+    width: 70vw;
+    height: 490px;
+    margin-left: 551px;
+    margin-top: -460px;
+    background-color: white;
+    border: 10px;
+    border-color: black;
+    align-content: center;
+    position: relative;
+
+}
+
+.balancetitle {
+  color: black;
+  align-self:start;
+  position: absolute;
+  top: 50px;
+  left: 115px;
+  font-size:65px;
+
+}
+
+.balance {
+  color: black;
+  text-align: center;
+  position: absolute;
+  top: 300px;
+  right: 250px;
+  font-size: 150px;
+}
+
+.numbersbox {
+  align-content: center;
+  max-width: 1000px;
+  height: 110px;
+  margin: 1px;
+  background-color: grey;
+  border: solid black;
+  border-width: 2px;
+  border-radius: 15px;
+  position: relative;
+  margin: 5px;
+
+
+}
+
+.transactionhistorybox {
+  align-content: center;
+  max-width: 1000px;
+  height: 110px;
+  margin: 1px;
+  background-color: grey;
+  border: solid black;
+  border-width: 2px;
+  border-radius: 15px;
+  position: relative;
+  margin: 5px;
+}
+
+.transaction {
+  color: black;
+  align-self:start;
+  position: absolute;
+  top: 50px;
+  left: 115px;
+  font-size:15px;
+
+}
+
+.numberszone {
+  width: 500px;
+  height: 440px;
+
+  padding: 5px;
+
+  margin: 10px;
+  background-color: #ffffff;
+  border: 10px;
+  border-color: black;
+  align-content: center;
+  position: relative;
+}
+
+.title {
+  color: black;
+  align-self:start;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 25px;
+}
+
+.number{
+  color: black;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 35px;
+}
+
+.hseparator1 {
+  background-color: #000000;
+  margin: -10px;
+  width: 100vw;
+  height: 10px;
+}
+
+.hseparator2 {
+  background-color: #000000;
+  margin-top: px;
+  width: 100vw;
+  height: 10px;
+}
+
+.hseparator3 {
+  background-color: #000000;
+  margin-top: 20px;
+  width: 100vw;
+  height: 5px;
+}
+
+.vseparator {
+  background-color: #000000;
+  top: 150px;
+  position: absolute;
+  left: 550px;
+  width: 10px;
+  height: 500px;
+}
+
+.accountnumber {
+  margin: -10px;
+  background: black;
+  border-radius: 0px;
+  }
+
+#heading {
+  background-color: #ffffff;
+  text-align: center;
+}
+
+h1[type="accountnumber"] {
+
+  color: #ffffff;
+}
+
+.prevtransactionentry {
+  margin-top: 5px;
+ border: solid 5px;
+ border-color: black;
+ border-radius: 50px;
+ padding: 5px;
+ margin-right: 15px;
+ width: 75vw;
+}
+
+.prevtransactionentry[type="title"]
+{
+  border: 0px;
+  margin-left: 10px;
+  color: black;
+
+}
+
+.prevtransactionentry[type="entry"]
+{
+  border: solid 1px;
+  border-color: grey;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width: 70vw;
+}
+
+.prevtransactionentry[type="button"]
+{
+
+}
+
+
+
+button {
+  min-height: 50px;
+  width: 190px;
+  border-radius: 0px;
+  border: solid 2px;
+  border-color: black;
+  background-color: #000000;
+  color: #fff;
+  font-size: 30px;
+  padding-bottom: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+button[type= "logout"] {
+  width: 190px;
+  border-radius: 0px;
+  border: solid 2px;
+  border-color: black;
+  background-color: #000000;
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+}
+
+button:hover {
+  background-color: grey;
+
+
+}
+
+text[type="incorrectlogin"] {
+  color: #660505;
+  vertical-align: middle;
+  disabled: "disabled";
+}
+
+input[type="text"] {
+  text-align: center;
+  height: 60px;
+  top: 10px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  font-weight: 200;
+  width: 313px;
+
+}
+
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+input[type="credentialtext"]
+{
+  text-align: center;
+  height: 60px;
+  top: 10px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  font-weight: 200;
+  width: 313px;
+}
+
+::placeholder {
+  color: grey;
+  opacity: 1;
+}
+
+footer {
+  color: white;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+}

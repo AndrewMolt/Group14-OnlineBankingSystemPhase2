@@ -1,0 +1,108 @@
+<%- include("header") -%>
+
+<div class="box" id="heading">
+    <h1>Account Transfer</h1>
+</div>
+
+<!-- <form action = "/backtodashboard" method = "POST">
+  <button type = "backtodashboard">Back to Dashboard</button>
+</form> -->
+
+<form action="/transfer" method="POST">
+    <input type="text" name="transferFrom" id="transferFrom" value="<%= from %>" readonly>
+    <input type="text" name="transferTo" id="transferTo" value="<%= to %>" placeholder="Enter Account Number" required>
+    <input type="number" step="0.01" min="0.01" name="amount" id="amount" placeholder="Enter Amount" required>
+    <input type="date" name="transferDate" id="transferDate" value="<%= new Date().toISOString().slice(0, 10) %>" required>
+
+    <select id="noteDropdown" name="noteDropdown" onchange="toggleNoteInput(this)">
+        <option value="Bills & Utilities">Bills & Utilities</option>
+        <option value="Person to Person">Person to Person</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Food & Drink">Food & Drink</option>
+        <option value="Shopping">Shopping</option>
+        <option value="other">Other</option>
+    </select>
+
+    <input type="text" name="note" id="note" placeholder="Enter your note" style="display:none;">
+
+    <button type="submit">TRANSFER</button>
+</form>
+
+<h2>Transfer History</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Transfer Date</th>
+            <th>Status</th>
+            <th>Transfer From</th>
+            <th>Transfer To</th>
+            <th>Amount</th>
+            <th>Note</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% transactions.forEach(transaction => { %>
+            <tr>
+                <td><%= transaction.date.toISOString().slice(0, 10) %></td>
+                <td><%= transaction.status %></td>
+                <td><%= transaction.sending_account_num %></td>
+                <td><%= transaction.receiving_account_num %></td>
+                <td><%= transaction.amount %></td>
+                <td><%= transaction.note %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+<%- include("footer") -%>
+
+
+    <script>
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const message = urlParams.get('message');
+      if (message) {
+        alert(message);
+      }
+    };
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("transferForm");
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+            fetch("/transfer", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    transferFrom: document.getElementById("transferFrom").value,
+                    transferTo: document.getElementById("transferTo").value,
+                    amount: document.getElementById("amount").value,
+                    transferDate: document.getElementById("transferDate").value,
+                    note: document.getElementById("note").value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = `/account_dashboard?accountnum=${document.getElementById("transferFrom").value}&message=Transfer completed successfully.`;
+                } else {
+                    window.location.href = `/account_dashboard?accountnum=${document.getElementById("transferFrom").value}&message=${data.message}`;
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    });
+
+    function toggleNoteInput(dropdown) {
+        var noteInput = document.getElementById("note");
+        if (dropdown.value === "other") {
+            noteInput.style.display = "block";
+        } else {
+            noteInput.style.display = "none";
+        }
+    }
+
+</script>

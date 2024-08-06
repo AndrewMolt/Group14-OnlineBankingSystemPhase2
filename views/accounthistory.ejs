@@ -1,0 +1,123 @@
+<%- include("header") -%>
+
+<div class="box" id="heading">
+    <h1>Account History</h1>
+</div>
+
+    <h1>Full Transaction History for Account: <%= account.accountnum %></h1>
+
+    <form method="GET" action="/account_history">
+        <input type="hidden" name="accountnum" value="<%= account.accountnum %>">
+        <label for="sort">Sort by category:</label>
+        <select name="sort" id="sort" onchange="this.form.submit()">
+            <option value="All" <%= selectedCategory === 'All' ? 'selected' : '' %>>All</option>
+            <option value="Bills & Utilities" <%= selectedCategory === 'Bills & Utilities' ? 'selected' : '' %>>Bills & Utilities</option>
+            <option value="Person to Person" <%= selectedCategory === 'Person to Person' ? 'selected' : '' %>>Person to Person</option>
+            <option value="Entertainment" <%= selectedCategory === 'Entertainment' ? 'selected' : '' %>>Entertainment</option>
+            <option value="Food & Drink" <%= selectedCategory === 'Food & Drink' ? 'selected' : '' %>>Food & Drink</option>
+            <option value="Shopping" <%= selectedCategory === 'Shopping' ? 'selected' : '' %>>Shopping</option>
+            <option value="Other" <%= selectedCategory === 'Other' ? 'selected' : '' %>>Other</option>
+        </select>
+    </form>
+
+<h2>Full Transaction History for Account: <%= account.accountnum %></h2>
+<table>
+    <thead>
+        <tr>
+            <th>Transfer Date</th>
+            <th>Status</th>
+            <th>Transfer From</th>
+            <th>Transfer To</th>
+            <th>Amount</th>
+            <th>Note</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% transactions.forEach(transaction => { %>
+            <tr>
+                <td><%= transaction.date.toISOString().slice(0, 10) %></td>
+                <td><%= transaction.status %></td>
+                <td><%= transaction.sending_account_num %></td>
+                <td><%= transaction.receiving_account_num %></td>
+                <td><%= transaction.amount %></td>
+                <td><%= transaction.note %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+<h2>Outgoing Transactions Breakdown</h2>
+<canvas id="transactionsChart"></canvas>
+
+<script src=https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js></script>
+<script>
+
+    // For sorting the transaction history
+    function sortTransactions() {
+            const sort = document.getElementById('sort').value;
+            window.location.href = `/account_history?accountnum=<%= account.accountnum %>&sort=${sort}`;
+        }
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("Document loaded. Initializing chart...");
+
+        // Verify the data being passed to the chart
+        console.log("Chart Data:", {
+            "Bills & Utilities": <%= categories["Bills & Utilities"] %>,
+            "Person to Person": <%= categories["Person to Person"] %>,
+            "Entertainment": <%= categories["Entertainment"] %>,
+            "Food & Drink": <%= categories["Food & Drink"] %>,
+            "Shopping": <%= categories["Shopping"] %>,
+            "Other": <%= categories["Other"] %>
+        });
+
+        var ctx = document.getElementById('transactionsChart').getContext('2d');
+        var transactionsChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ["Bills & Utilities", "Person to Person", "Entertainment", "Food & Drink", "Shopping", "Other"],
+                datasets: [{
+                    label: 'Outgoing Transactions',
+                    data: [
+                        <%= categories["Bills & Utilities"] %>,
+                        <%= categories["Person to Person"] %>,
+                        <%= categories["Entertainment"] %>,
+                        <%= categories["Food & Drink"] %>,
+                        <%= categories["Shopping"] %>,
+                        <%= categories["Other"] %>
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Outgoing Transactions Breakdown'
+                    }
+                }
+            },
+        });
+    });
+</script>
+
+<%- include("footer") -%>
